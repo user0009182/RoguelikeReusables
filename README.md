@@ -3,11 +3,13 @@ Project to hold reusable components that can be used in different projects.
 
 assets/SpriteSheets - A wrapper around SpriteAtlas that makes it easy to obtain sprites by name
 
-    var spriteSheet = new SpriteSheet("SpriteAtlas");
+    //assumes a SpriteAtlas named atlas1 is in the Resources folder and it contains a sprite named sprite1
+    var spriteSheet = new SpriteSheet("atlas1");
     var sprite = spriteSheet.GetSprite("sprite1");
 
 assets/TileGridRendering - A tile renderer, similar to Unity's Tilemap. It is initialized like this:
 
+    //each layer depends on a SpriteSheet to obtain sprites to display
     var spriteSheets = new SpriteSheetCollection();
     spriteSheets.Add(new SpriteSheet("SpriteAtlas"));
     //initialize width/height
