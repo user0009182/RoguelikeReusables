@@ -30,16 +30,16 @@ class TileGridMesh
 
     }
 
-    internal void SetSprite(int x, int y, Sprite sprite)
+    internal void SetSprite(int x, int y, SpriteInfo spriteInfo)
     {
-        SetSprite(x, y, sprite, Color.white);
+        SetSprite(x, y, spriteInfo, Color.white);
     }
 
-    internal void SetSprite(int x, int y, Sprite sprite, Color color)
+    internal void SetSprite(int x, int y, SpriteInfo spriteInfo, Color color)
     {
         int uvIndex = (x * Size.y + y) * 4;
-
-        if (sprite == null)
+        
+        if (spriteInfo == null)
         {
             colors[uvIndex] = Color.clear;
             colors[uvIndex+1] = Color.clear;
@@ -52,15 +52,20 @@ class TileGridMesh
         colors[uvIndex + 1] = color;
         colors[uvIndex + 2] = color;
         colors[uvIndex + 3] = color;
-
-        var minX = sprite.uv.Min(uv => uv.x);
-        var minY = sprite.uv.Min(uv => uv.y);
-        var maxX = sprite.uv.Max(uv => uv.x);
-        var maxY = sprite.uv.Max(uv => uv.y);
-        uvs[uvIndex] = new Vector2(minX, minY);
-        uvs[uvIndex+1] = new Vector2(minX, maxY);
-        uvs[uvIndex+2] = new Vector2(maxX, maxY);
-        uvs[uvIndex+3] = new Vector2(maxX, minY);
+        
+        uvs[uvIndex] = spriteInfo.Uv[0];
+        uvs[uvIndex+1] = spriteInfo.Uv[1];
+        uvs[uvIndex+2] = spriteInfo.Uv[2];
+        uvs[uvIndex+3] = spriteInfo.Uv[3];
+        return;
+        //var minX = sprite.uv.Min(uv => uv.x);
+        //var minY = sprite.uv.Min(uv => uv.y);
+        //var maxX = sprite.uv.Max(uv => uv.x);
+        //var maxY = sprite.uv.Max(uv => uv.y);
+        //uvs[uvIndex] = new Vector2(minX, minY);
+        //uvs[uvIndex+1] = new Vector2(minX, maxY);
+        //uvs[uvIndex+2] = new Vector2(maxX, maxY);
+        //uvs[uvIndex+3] = new Vector2(maxX, minY);
     }
 
     internal void CommitChanges()

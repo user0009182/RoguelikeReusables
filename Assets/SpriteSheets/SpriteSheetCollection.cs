@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class SpriteSheetCollection
 {
-    Dictionary<string, SpriteInfo> sprites = new System.Collections.Generic.Dictionary<string, SpriteInfo>();
+    Dictionary<string, SpriteSheetCollectionEntry> sprites = new System.Collections.Generic.Dictionary<string, SpriteSheetCollectionEntry>();
     List<SpriteSheet> spriteSheets = new List<SpriteSheet>();
     internal List<SpriteSheet> SpriteSheets
     {
@@ -21,8 +21,8 @@ public class SpriteSheetCollection
         {
             //try to prevent the name clashing with an existing sprite (eg in another sheet)
             //by appending _1, _2 etc to the name
-            var name = GetUniqueSpriteName(sprite.name);
-            sprites[name] = new SpriteInfo(sprite, spriteSheets.Count-1);
+            var name = GetUniqueSpriteName(sprite.Sprite.name);
+            sprites[name] = new SpriteSheetCollectionEntry(sprite, spriteSheets.Count-1);
         }
     }
 
@@ -41,22 +41,23 @@ public class SpriteSheetCollection
         return ret;
     }
 
-    internal bool GetSprite(string name, out SpriteInfo spriteInfo)
+    internal SpriteSheetCollectionEntry GetSprite(string name)
     {
-        if (!sprites.TryGetValue(name, out spriteInfo))
-            return false;
-        return true;
+        SpriteSheetCollectionEntry ret;
+        if (!sprites.TryGetValue(name, out ret))
+            return null;
+        return ret;
     }
 }
 
-struct SpriteInfo
+class SpriteSheetCollectionEntry
 {
-    internal Sprite Sprite;
+    internal SpriteInfo SpriteInfo;
     internal int SheetIndex;
 
-    public SpriteInfo(Sprite sprite, int sheetIndex)
+    public SpriteSheetCollectionEntry(SpriteInfo spriteInfo, int sheetIndex)
     {
-        Sprite = sprite;
+        SpriteInfo = spriteInfo;
         SheetIndex = sheetIndex;
     }
 }
